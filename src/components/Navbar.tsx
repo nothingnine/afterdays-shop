@@ -10,11 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Cart from "./Cart";
+import { getServerSideUser } from "@/lib/payload-utils";
+import { cookies } from "next/headers";
+import NavbarUserAccount from "./NavbarUserAccount";
 
 const Navbar = async () => {
-  const user = false;
-
-  const isAdmin = false;
+  const nextCookies = cookies();
+  const { user } = await getServerSideUser(nextCookies);
 
   return (
     <nav
@@ -26,51 +28,33 @@ const Navbar = async () => {
       </Link>
       <div className="flex flex-row items-center justify-center mr-10 gap-4">
         <Link href="/products">Products</Link>
-        {isAdmin ? (
-          <>
-            <Link href="/dashboard">
-              <div className="bg-muted ml-3 w-fit rounded-full px-3 py-2 flex flex-row">
-                dashboard
-                <ArrowRight className="p-1 bg-black text-white rounded-full ml-1" />
-              </div>
-            </Link>
-          </>
+        <span className="flex items-center rounded-full bg-muted px-4">
+          <input
+            className="bg-muted px-3 py-2 text-sm focus:outline-none placeholder:text-muted-foreground"
+            placeholder="Search Product"
+          />
+          <Search />
+        </span>
+        <Cart />
+        {user ? (
+          <NavbarUserAccount />
         ) : (
-          <>
-            <span className="flex items-center rounded-full bg-muted px-4">
-              <input
-                className="bg-muted px-3 py-2 text-sm focus:outline-none placeholder:text-muted-foreground"
-                placeholder="Search Product"
-              />
-              <Search />
-            </span>
-            <Cart />
-          </>
-        )}
-
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <CircleUserRound />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <CircleUserRound />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href="/api/auth/logout">Log out</Link>
+                <Link href="/sign-in">Sign in</Link>
               </DropdownMenuItem>
-            ) : (
-              <>
-                <DropdownMenuItem>
-                  <Link href="/api/auth/login">Log in</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/api/auth/register">Create Account</Link>
-                </DropdownMenuItem>
-              </>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuItem>
+                <Link href="/sign-up">Create Account</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </nav>
   );

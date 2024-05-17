@@ -14,7 +14,6 @@ import {
   TAuthCredentialsValidator,
 } from "@/lib/validators/account-credentials-validator";
 import { toast } from "sonner";
-import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
 import { trpc } from "@/trpc/client";
 
@@ -29,41 +28,32 @@ const Page = () => {
 
   const router = useRouter();
 
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
-    onError: (err) => {
-      if (err.data?.code === "CONFLICT") {
-        toast.error("This email is already in use. Sign in instead?");
+  const { mutate: signIn, isLoading } = trpc.auth.signIn.useMutation({
+    onSuccess: () => {
+      toast.success("Signed in successfully");
 
-        return;
-      }
-
-      if (err instanceof ZodError) {
-        toast.error(err.issues[0].message);
-
-        return;
-      }
-
-      toast.error("Something went wrong. Please try again.");
+      router.push("/");
+      router.refresh();
     },
 
-    onSuccess: () => {
-      toast.success("Your account has been successfully created.");
-      router.push("/sign-in");
+    onError: (err) => {
+      if (err.data?.code === "UNAUTHORIZED") {
+        toast.error("invalid email or password.");
+      }
     },
   });
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
-    mutate({ email, password });
+    signIn({ email, password });
   };
 
   return (
     <>
       <div className="container relative flex pt-20 flex-row items-center justify-center lg:px-0">
-        <img src="sign-up.png" className="ml-20 w-[40%]" />
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col items-center space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              Create an account
+              Sign in to your account
             </h1>
 
             <Link
@@ -71,9 +61,9 @@ const Page = () => {
                 variant: "link",
                 className: "gap-1.5",
               })}
-              href="/sign-in"
+              href="/sign-up"
             >
-              Already have an account? Sign-in
+              Don&apos;t have an account?
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -114,11 +104,12 @@ const Page = () => {
                   )}
                 </div>
 
-                <Button>Sign up</Button>
+                <Button>Sign in</Button>
               </div>
             </form>
           </div>
         </div>
+        <img src="sign-in.png" className="mr-20 w-[40%]" />
       </div>
     </>
   );
