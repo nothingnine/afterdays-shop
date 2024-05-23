@@ -49,7 +49,8 @@ const Page = () => {
 
   return (
     <>
-      <div className="container relative flex pt-20 flex-row items-center justify-center lg:px-0">
+      <div className="h-20 inset-x-0 top-0 bg-white border-b border-gray-200" />
+      <div className="container relative flex flex-col pt-20 lg:flex-row items-center justify-center lg:px-0">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col items-center space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
@@ -109,7 +110,7 @@ const Page = () => {
             </form>
           </div>
         </div>
-        <img src="sign-in.png" className="mr-20 w-[40%]" />
+        <img src="sign-in.png" className="lg:mr-20 w-[40%] mb-2" />
       </div>
     </>
   );

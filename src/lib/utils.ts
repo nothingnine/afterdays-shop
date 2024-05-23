@@ -12,14 +12,13 @@ export function formatPrice(
     notation?: Intl.NumberFormatOptions["notation"];
   } = {}
 ) {
-  const { currency = "THB", notation = "compact" } = options;
+  const { currency = "THB" } = options;
 
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
   return new Intl.NumberFormat("th-TH", {
     style: "currency",
     currency,
-    notation,
     maximumFractionDigits: 2,
   }).format(numericPrice);
 }

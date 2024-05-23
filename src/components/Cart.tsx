@@ -1,35 +1,62 @@
+"use client";
+
+import { ShoppingBag } from "lucide-react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetFooter,
-} from "@/components/ui/sheet";
-import { formatPrice } from "@/lib/utils";
-import { ShoppingBag } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-
-import React from "react";
+} from "./ui/sheet";
 import { Separator } from "./ui/separator";
+import { formatPrice } from "@/lib/utils";
+import Link from "next/link";
 import { buttonVariants } from "./ui/button";
+import Image from "next/image";
+import { useCart } from "@/hooks/use-cart";
+import { ScrollArea } from "./ui/scroll-area";
+import { useEffect, useState } from "react";
+import CartItem from "./CartItem";
 
 const Cart = () => {
-  const itemCount = 0;
-  const fee = 1;
+  const { items } = useCart();
+  const itemCount = items.length;
+
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const cartTotal = items.reduce(
+    (total, { product }) => total + product.price,
+    0
+  );
+
+  const fee = 35;
+
   return (
     <Sheet>
-      <SheetTrigger>
-        <ShoppingBag aria-hidden="true" />
+      <SheetTrigger className="relative group -m-2 flex items-center p-3">
+        <ShoppingBag aria-hidden="true" className="h-6 w-6 flex-shrink-0" />
+        <span className="absolute top-0 right-0 rounded-full bg-green-30 px-2 py-1 text-xs text-white">
+          {isMounted ? (itemCount >= 100 ? "99+" : itemCount) : 0}
+        </span>
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
-        <SheetHeader className="space-y-2.5 pr-6 items-center">
+        <SheetHeader className="space-y-2.5 pr-6">
           <SheetTitle>Cart ({itemCount})</SheetTitle>
         </SheetHeader>
         {itemCount > 0 ? (
           <>
+            <div className="flex w-full flex-col pr-6">
+              <ScrollArea>
+                {items.map(({ product }) => (
+                  <CartItem product={product} key={product.id} />
+                ))}
+              </ScrollArea>
+            </div>
             <div className="space-y-4 pr-6">
               <Separator />
               <div className="space-y-1.5 text-sm">
@@ -43,7 +70,7 @@ const Cart = () => {
                 </div>
                 <div className="flex">
                   <span className="flex-1">Total</span>
-                  <span>{formatPrice(fee)}</span>
+                  <span>{formatPrice(cartTotal + fee)}</span>
                 </div>
               </div>
 
@@ -51,7 +78,9 @@ const Cart = () => {
                 <SheetTrigger asChild>
                   <Link
                     href="/cart"
-                    className="bg-green-30 text-white hover:bg-green-30/90 w-full text-center p-2 rounded-sm font-semibold"
+                    className={buttonVariants({
+                      className: "w-full",
+                    })}
                   >
                     Continue to Checkout
                   </Link>
@@ -71,7 +100,11 @@ const Cart = () => {
             <SheetTrigger asChild>
               <Link
                 href="/products"
-                className="text-primary underline-offset-4 hover:underline h-9 rounded-md px-3"
+                className={buttonVariants({
+                  variant: "link",
+                  size: "sm",
+                  className: "text-sm text-muted-foreground",
+                })}
               >
                 Add items to your cart to checkout
               </Link>

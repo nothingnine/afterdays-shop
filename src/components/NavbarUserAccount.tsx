@@ -16,12 +16,8 @@ const NavbarUserAccount = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <CircleUserRound />
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger>My Account</DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={signOut} className="cursor-pointer">
           Log out
         </DropdownMenuItem>

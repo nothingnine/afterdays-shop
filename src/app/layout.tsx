@@ -3,13 +3,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "sonner";
-import Providers from "@/components/Providers";
+import Providers from "@/components/providers/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Afterdays",
-  description: "Website for Aterdays Shop",
+  description: "Website for Afterdays Shop",
 };
 
 export default function RootLayout({
