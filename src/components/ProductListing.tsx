@@ -42,7 +42,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
         >
           <div className="flex flex-col w-full">
             <ImageSlider urls={validUrls} />
-            <p className="bg-gray-20 mt-3 text-[12px] w-fit px-2 text-gray-500 rounded-sm ml-2">
+            <p className="bg-green-30 mt-3 text-[12px] w-fit px-2 text-white rounded-sm ml-2">
               {label}
             </p>
 

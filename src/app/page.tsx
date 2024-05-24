@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="bg-white overflow-hidden">
       <section className="relative h-screen">
-        <div className="absolute bottom-[20%] sm:bottom-[10%] left-10 lg:left-40 w-full sm:w-[40%] md:w-1/3 selection:text-balance">
+        <div className="absolute bottom-[20%] sm:bottom-[10%] lg:bottom-[25%] left-10 lg:left-40 w-full sm:w-[40%] md:w-1/3 selection:text-balance">
           <h1 className="font-bold text-6xl text-black leading-tight">
             Be good to your skins.
           </h1>
