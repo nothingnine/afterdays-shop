@@ -65,7 +65,7 @@ const Cart = () => {
                   <span>Free</span>
                 </div>
                 <div className="flex">
-                  <span className="flex-1">Transaction Fee</span>
+                  <span className="flex-1">Delivery Fee</span>
                   <span>{formatPrice(fee)}</span>
                 </div>
                 <div className="flex">

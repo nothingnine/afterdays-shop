@@ -1,5 +1,6 @@
 "use client";
 
+import InDev from "@/components/InDev";
 import { Button } from "@/components/ui/button";
 import { PRODUCT_CATEGORIES } from "@/config";
 import { useCart } from "@/hooks/use-cart";
@@ -43,6 +44,7 @@ const Page = () => {
 
   return (
     <div className="bg-white">
+      <div className="h-20 inset-x-0 top-0 bg-white border-b border-gray-200" />
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Shopping Cart
@@ -165,7 +167,7 @@ const Page = () => {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <div className="flex items-center text-sm text-muted-foreground">
-                  <span>Flat Transaction Fee</span>
+                  <span>Delivery Fee</span>
                 </div>
                 <div className="text-sm font-medium text-gray-900">
                   {isMounted ? (
@@ -190,7 +192,8 @@ const Page = () => {
               </div>
             </div>
             <div className="mt-6">
-              <Button
+              <InDev />
+              {/* <Button
                 disabled={items.length === 0 || isLoading}
                 onClick={() => createCheckoutSession({ productIds })}
                 className="w-full"
@@ -200,7 +203,7 @@ const Page = () => {
                   <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
                 ) : null}
                 Checkout
-              </Button>
+              </Button> */}
             </div>
           </section>
         </div>
